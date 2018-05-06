@@ -1,13 +1,13 @@
 
 ## Getting Started
 1) Using the Terminal 
-    git clone https://github.com/15010159959/super-dictionary.git
+    git clone https://github.com/ottokafka/iQuote.git
 
 2) Open the directory of the download and open index.html
-![image](https://user-images.githubusercontent.com/21117852/39468171-5459c064-4d64-11e8-8876-b426cb8f46e4.png)
+
 
 3) You will see this:
-![image](https://user-images.githubusercontent.com/21117852/39468161-464d565c-4d64-11e8-9880-1001425fb8b5.png)
+
 
 4) Install the Web Extension Wallet. Go to the github link [Chrome extention wallet](https://github.com/ChengOrangeJu/WebExtensionWallet)
 
@@ -46,9 +46,9 @@ you will see this after you sumbit nas to yourself
 Now go back to the main Dapp
 the index.html file and refresh the page
 
-You can search for something or add to the dictionary. Enjoy.
 
-![image](https://user-images.githubusercontent.com/21117852/39468761-53fc12a4-4d67-11e8-98cc-00a76111fc11.png)
+
+
 
 
 
