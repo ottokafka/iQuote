@@ -51,9 +51,24 @@ you will see this after you sumbit nas to yourself
 ![image](https://user-images.githubusercontent.com/21117852/39468722-221a19e8-4d67-11e8-86d6-977814efbe15.png)
 
 Now go back to the main Dapp
-the index.html file and refresh the page
+the index.html file and refresh the page.
+You can go ahead and use this Dapp now. 
 
 ![image](https://user-images.githubusercontent.com/21117852/39669739-2630a9c0-5127-11e8-9213-a1265e94532d.png)
+
+Create a Quote such as this example and sign your name.
+Click Submit and this will save it to the Nebulas blockchain
+
+![image](https://user-images.githubusercontent.com/21117852/39670335-038d7b74-5135-11e8-8a5d-d049a0a5f3a5.png)
+
+Now search your name that your used
+
+![image](https://user-images.githubusercontent.com/21117852/39670372-d11e000e-5135-11e8-9cb0-84b727999dee.png)
+
+The Results will show
+
+![image](https://user-images.githubusercontent.com/21117852/39670408-d3f73a38-5136-11e8-9641-e34697f4859e.png)
+
 
 
 

@@ -10,6 +10,289 @@
     <title>iQuote</title>
     <link rel="stylesheet" href="css/style.css">
 
+    <style>
+        /*----------- moving word display--------*/
+        .content {
+            font-size: 35px; }
+
+        .content__container {
+            overflow: hidden;
+            height: 40px; }
+
+        .content__container__text {
+            display: inline;
+            float: left;
+            margin: 0; }
+
+        .content__container__list {
+            margin-top: 0;
+            padding-left: 122px;
+            text-align: left;
+            list-style: none;
+            -webkit-animation-name: change;
+            -webkit-animation-duration: 10s;
+            -webkit-animation-iteration-count: infinite;
+            animation-name: change;
+            animation-duration: 10s;
+            animation-iteration-count: infinite; }
+
+        @-webkit-keyframes opacity {
+            0%, 100% {
+                opacity: 0; }
+            50% {
+                opacity: 1; } }
+
+        @-webkit-keyframes change {
+            0%, 12.66%, 100% {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0); }
+            16.66%, 29.32% {
+                -webkit-transform: translate3d(0, -25%, 0);
+                transform: translate3d(0, -25%, 0); }
+            33.32%, 45.98% {
+                -webkit-transform: translate3d(0, -50%, 0);
+                transform: translate3d(0, -50%, 0); }
+            49.98%, 62.64% {
+                -webkit-transform: translate3d(0, -75%, 0);
+                transform: translate3d(0, -75%, 0); }
+            66.64%, 79.3% {
+                -webkit-transform: translate3d(0, -50%, 0);
+                transform: translate3d(0, -50%, 0); }
+            83.3%, 95.96% {
+                -webkit-transform: translate3d(0, -25%, 0);
+                transform: translate3d(0, -25%, 0); } }
+
+        @keyframes opacity {
+            0%, 100% {
+                opacity: 0; }
+            50% {
+                opacity: 1; } }
+
+        @keyframes change {
+            0%, 12.66%, 100% {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0); }
+            16.66%, 29.32% {
+                -webkit-transform: translate3d(0, -25%, 0);
+                transform: translate3d(0, -25%, 0); }
+            33.32%, 45.98% {
+                -webkit-transform: translate3d(0, -50%, 0);
+                transform: translate3d(0, -50%, 0); }
+            49.98%, 62.64% {
+                -webkit-transform: translate3d(0, -75%, 0);
+                transform: translate3d(0, -75%, 0); }
+            66.64%, 79.3% {
+                -webkit-transform: translate3d(0, -50%, 0);
+                transform: translate3d(0, -50%, 0); }
+            83.3%, 95.96% {
+                -webkit-transform: translate3d(0, -25%, 0);
+                transform: translate3d(0, -25%, 0); } }
+
+        /*----------- moving word display--------*/
+        /*---------css grid example --------------*/
+        .wrapperExample1 {
+            display: grid; }
+
+        * {
+            box-sizing: border-box; }
+
+        .wrapperExample1 {
+            border-radius: 5px; }
+
+        .wrapperExample1 > div {
+            border-radius: 5px;
+            padding: 1em;
+            color: #000000; }
+
+        .nestedExample1 {
+            border: 2px solid #ffec99;
+            border-radius: 5px;
+            background-color: #fff9db;
+            padding: 1em; }
+
+        /*---------css grid example --------------*/
+        .row span {
+            position: relative;
+            display: inline-block;
+            margin: 50px 30px; }
+
+        .gate {
+            display: inline-block;
+            width: 315px;
+            padding: 10px 0 10px 18px;
+            font-weight: 400;
+            font-size: 20px;
+            color: #000000;
+            background: #efefef;
+            border: 0;
+            border-radius: 3px;
+            outline: 0;
+            text-indent: 65px;
+            transition: all .3s ease-in-out; }
+
+        .gate + label {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 15px 15px;
+            text-shadow: 0 1px 0 rgba(19, 74, 70, 0.4);
+            background: #4eff0c;
+            transition: all .4s ease-in-out;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+            transform-origin: left bottom;
+            z-index: 99; }
+
+        .gate:focus,
+        .gate:active {
+            color: #377D6A;
+            text-indent: 0;
+            background: #fff;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px; }
+
+        .gate:focus + label,
+        .gate:active + label {
+            transform: rotate(-66deg);
+            border-radius: 3px; }
+
+        * {
+            font-family: 'Roboto', sans-serif; }
+
+        .buttonCenter {
+            margin: auto;
+            padding-left: 80px; }
+
+        .submitButton {
+            outline: none;
+            height: 40px;
+            text-align: center;
+            width: 130px;
+            border-radius: 40px;
+            background: #fff;
+            border: 2px solid #1ECD97;
+            color: #1ECD97;
+            letter-spacing: 1px;
+            font-size: 19px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease; }
+        .submitButton:hover {
+            color: white;
+            background: #1ECD97; }
+        .submitButton:active {
+            letter-spacing: 2px; }
+        .submitButton:after {
+            content: "SUBMIT"; }
+
+        .resultsBorder {
+            border-top: solid black; }
+
+        .resultsText {
+            color: silver; }
+
+        /*--------------------------------------------------------------
+        1.0 - BASE SITE STYLES
+        --------------------------------------------------------------*/
+        *, *:after, *:before {
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box; }
+
+        .cf:before,
+        .cf:after {
+            content: "";
+            display: table; }
+
+        .cf:after {
+            clear: both; }
+
+        a, a:visited {
+            color: #fff; }
+
+        /*--------------------------------------------------------------
+        2.0 - SEARCH FORM
+        --------------------------------------------------------------*/
+        .resultCenter {
+            margin: auto;
+            padding-left: 70px; }
+
+        .searchCenter {
+            width: 440px; }
+
+        .searchform {
+            margin: auto;
+            background: #f4f4f4;
+            background: rgba(244, 244, 244, 0.79);
+            border: 1px solid #d3d3d3;
+            padding: 2px 5px;
+            width: 339px;
+            box-shadow: 0 4px 9px rgba(0, 0, 0, 0.37);
+            -moz-box-shadow: 0 4px 9px rgba(0, 0, 0, 0.37);
+            -webkit-box-shadow: 0 4px 9px rgba(0, 0, 0, 0.37);
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px; }
+
+        .searchform input, .searchform button {
+            float: left; }
+
+        .searchform input {
+            background: #fefefe;
+            border: none;
+            font: 12px/12px 'HelveticaNeue', Helvetica, Arial, sans-serif;
+            margin-right: 5px;
+            padding: 10px;
+            width: 216px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.4) inset, 1px 1px 1px rgba(255, 255, 255, 0.75);
+            -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4) inset, 1px 1px 1px rgba(255, 255, 255, 0.75);
+            -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4) inset, 1px 1px 1px rgba(255, 255, 255, 0.75);
+            border-radius: 9px;
+            -moz-border-radius: 9px;
+            -webkit-border-radius: 9px; }
+
+        .searchform input:focus {
+            outline: none;
+            box-shadow: 0 0 4px #0d76be inset;
+            -moz-box-shadow: 0 0 4px #0d76be inset;
+            -webkit-box-shadow: 0 0 4px #0d76be inset; }
+
+        .searchform input::-webkit-input-placeholder {
+            font-style: italic;
+            line-height: 15px; }
+
+        .searchform input:-moz-placeholder {
+            font-style: italic;
+            line-height: 15px; }
+
+        .searchform button {
+            background: #34adec;
+            background: -moz-linear-gradient(top, #34adec 0%, #2691dc 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #34adec), color-stop(100%, #2691dc));
+            background: -webkit-linear-gradient(top, #34adec 0%, #2691dc 100%);
+            background: -o-linear-gradient(top, #34adec 0%, #2691dc 100%);
+            background: -ms-linear-gradient(top, #34adec 0%, #2691dc 100%);
+            background: linear-gradient(to bottom, #34adec 0%, #2691dc 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#34adec', endColorstr='#2691dc',GradientType=0 );
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font: 13px/13px 'HelveticaNeue', Helvetica, Arial, sans-serif;
+            padding: 10px;
+            width: 106px;
+            box-shadow: 0 0 2px #2692dd inset;
+            -moz-box-shadow: 0 0 2px #2692dd inset;
+            -webkit-box-shadow: 0 0 2px #2692dd inset;
+            border-radius: 9px;
+            -moz-border-radius: 9px;
+            -webkit-border-radius: 9px; }
+
+        .searchform button:hover {
+            opacity: .9; }
+
+    </style>
+
 </head>
 
 <body>
@@ -62,7 +345,7 @@
     <div>
         <div class="resultCenter">
 
-            <h3 id="result"></h3>
+            <h3 class="resultsText" id="result"></h3>
         </div>
 
 
@@ -143,6 +426,8 @@
         username = document.getElementById("username").value
         quote = document.getElementById("quote").value
 
+        username.toLowerCase()
+
         console.log("-------Add to the Smart Contract------");
         var func = "save"
         var args = "[\"" + username + "\",\"" + quote + "\"]";
@@ -170,8 +455,13 @@
 
         if (result === "null") {
             console.log("This Name is not Found check the spelling or try a different name ");
-            document.getElementById("result").innerHTML = `<div> This Name is not Found check the spelling or try a different name </div>`;
+
             console.log(result);
+            document.getElementById("result").innerHTML = `<h1> Your Results are Processing`
+
+            setTimeout(function () {
+                document.getElementById("result").innerHTML = `<div> This Name is not Found check the spelling or try a different name </div>`;
+            },1000)
         }
 
         if (result !== "null") {
