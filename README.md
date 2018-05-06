@@ -1,3 +1,6 @@
+Test it out Here: [iQoute](https://ottokafka.github.io/iQuote/.)
+
+Developers follow this guide below
 
 ## Getting Started
 1) Using the Terminal 
