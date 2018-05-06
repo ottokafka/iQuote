@@ -5,22 +5,29 @@
 
 2) Open the directory of the download and open index.html
 
+![image](https://user-images.githubusercontent.com/21117852/39669720-b1a65032-5126-11e8-9c7d-613c27a101e0.png)
 
 3) You will see this:
 
+![image](https://user-images.githubusercontent.com/21117852/39669724-dd272790-5126-11e8-8127-92333c3ccea0.png)
 
-4) Install the Web Extension Wallet. Go to the github link [Chrome extention wallet](https://github.com/ChengOrangeJu/WebExtensionWallet)
+
+4) Install the Web Extension Wallet. Go to the github link
+ [Chrome extention wallet](https://github.com/ChengOrangeJu/WebExtensionWallet)
 
 5) in the terminal 
 git clone https://github.com/ChengOrangeJu/WebExtensionWallet.git
 
 6) in Chrome browser: More tools / Extensions
+
 ![image](https://user-images.githubusercontent.com/21117852/39468331-0efb30e2-4d65-11e8-8d1c-f1725453ba2b.png)
 
 click enable developer and click LOAD UNPACKED
+
 ![image](https://user-images.githubusercontent.com/21117852/39468412-6bc87ba4-4d65-11e8-8185-7e8c175a6842.png)
 
 Select WebExtensionWallet folder and click SELECT
+
 ![image](https://user-images.githubusercontent.com/21117852/39468494-d6ecf978-4d65-11e8-8ebd-b6f0cffaf52d.png)
 
 
@@ -46,11 +53,11 @@ you will see this after you sumbit nas to yourself
 Now go back to the main Dapp
 the index.html file and refresh the page
 
+![image](https://user-images.githubusercontent.com/21117852/39669739-2630a9c0-5127-11e8-9213-a1265e94532d.png)
 
 
 
-
-
+Below is the full Smart Contract used for this Dapp
 
 
 ```js
@@ -61,10 +68,8 @@ var MyQuote = function(text) {
         var obj = JSON.parse(text);
         this.key = obj.key;
         this.value = obj.value;
-        this.author = obj.author;
     } else {
         this.key = "";
-        this.author = "";
         this.value = "";
     }
 };
@@ -96,9 +101,6 @@ IQuote.prototype = {
         value = value.trim();
         if (key === "" || value === ""){
             throw new Error(" You didn't enter a name or You didn't enter quote ");
-        }
-        if (value.length > 64 || key.length > 64){
-            throw new Error("You enter in too much text delete some / the max characters is 64")
         }
 
         var from = Blockchain.transaction.from;

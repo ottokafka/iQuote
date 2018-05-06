@@ -22,8 +22,8 @@
             </p>
 
             <ul class="content__container__list">
-                <li class="content__container__list__item">Never Give Up - John Smith</li>
-                <li class="content__container__list__item">Be Like Water - Bruce Lee</li>
+                <li class="content__container__list__item">Save to the Blockchain</li>
+                <li class="content__container__list__item">Nebulas Blockchain</li>
                 <li class="content__container__list__item">Adapt or Die - Unknown</li>
                 <li class="content__container__list__item">Keep on Keeping on - Someone</li>
                 <li class="content__container__list__item">Life is Life - Me</li>
@@ -52,8 +52,9 @@
     </div>
 
 
-    <div>me
-<img src="">
+    <div>
+        <h1>Example Below</h1>
+<img src="example1.png">
 
     </div>
 
@@ -68,6 +69,7 @@
     </div>
 
     <div class="searchCenter">
+        <h1 class="resultsBorder">Search Your Name to See Your Quote</h1>
 
         <div class="searchform cf">
 
@@ -177,7 +179,15 @@
             result = JSON.parse(e.data.data.neb_call.result)
             console.log(result);
 
-            document.getElementById("result").innerHTML = `${result.value} - ${result.key}`
+            document.getElementById("result").innerHTML = `<h1> Your Results are Processing`
+
+            setTimeout(function () {
+                document.getElementById("result").innerHTML = `<h1> Just One Second`
+            },1000)
+
+            setTimeout(function () {
+                document.getElementById("result").innerHTML = `<h1> ${result.value} </h1> - ${result.key }`
+            },2000)
         }
     })
 </script>
