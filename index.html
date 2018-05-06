@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
+    <title>iQuote</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="wrapperExample1">
+    <div class="content">
+        <div class="content__container">
+            <p class="content__container__text">
+                iQuote:
+            </p>
+
+            <ul class="content__container__list">
+                <li class="content__container__list__item">Never Give Up - John Smith</li>
+                <li class="content__container__list__item">Be Like Water - Bruce Lee</li>
+                <li class="content__container__list__item">Adapt or Die - Unknown</li>
+                <li class="content__container__list__item">Keep on Keeping on - Someone</li>
+                <li class="content__container__list__item">Life is Life - Me</li>
+                <li class="content__container__list__item">People Our People</li>
+                <li class="content__container__list__item">Go into the Light - James</li>
+                <li class="content__container__list__item">Its a Win Win - fool</li>
+            </ul>
+        </div>
+
+    </div>
+
+
+    <div>
+        <div class="row">
+
+        <span>
+    <input class="gate" id="quote" placeholder="Make a Quote">
+      <label>Quote</label>
+  </span>
+
+            <span>
+    <input class="gate" id="username" placeholder="Sign Your Name"><label>Name</label>
+  </span>
+            <button onclick="add2Contract()" class="submitButton"></button>
+        </div>
+    </div>
+
+
+    <div>me
+<img src="">
+
+    </div>
+
+
+    <div>
+        <div class="resultCenter">
+
+            <h3 id="result"></h3>
+        </div>
+
+
+    </div>
+
+    <div class="searchCenter">
+
+        <div class="searchform cf">
+
+            <input id="searchvalue" placeholder="Search Your Name">
+            <button onclick="search()">Search</button>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+
+    //  The Contract Address not the wallet address
+    var contractAddress = "n1jfdGb6TCja54MH23ynKwmsymJFUJgnFuj"
+
+    var quote = document.getElementById("quote")
+    var username = document.getElementById("username")
+
+
+    var searchvalue = document.getElementById("searchvalue")
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        console.log("web page loaded...")
+        setTimeout(checkNebpay, 1000);
+    });
+
+    function checkNebpay() {
+        console.log("check nebpay")
+        try {
+            var NebPay = require("nebpay");
+            console.log(`nebPay installed great`);
+
+        } catch (e) {
+            console.log(e);
+            if (window.confirm('You dont have the Chrome web wallet extension installed to use this Dapp click Confirm to download now ')) {
+                window.location.href = 'https://github.com/ChengOrangeJu/WebExtensionWallet';
+            }
+        }
+    }
+
+
+    function search() {
+
+        searchvalue = document.getElementById("searchvalue").value
+
+        console.log("-----Searching SMart Contract---------");
+
+        var func = "get"
+        var args = "[\"" + searchvalue + "\"]"
+        console.log(`you search for ${searchvalue}`);
+
+        window.postMessage({
+            "target": "contentscript",
+            "data": {
+                "to": contractAddress,
+                "value": "0",
+                "contract": {
+                    "function": func,
+                    "args": args
+                }
+            },
+            "method": "neb_call"
+        }, "*");
+    }
+
+    function add2Contract() {
+
+        username = document.getElementById("username").value
+        quote = document.getElementById("quote").value
+
+        console.log("-------Add to the Smart Contract------");
+        var func = "save"
+        var args = "[\"" + username + "\",\"" + quote + "\"]";
+
+        window.postMessage({
+            "target": "contentscript",
+            "data": {
+                "to": contractAddress,
+                "value": "0",
+                "contract": {
+                    "function": func,
+                    "args": args
+                }
+            },
+            "method": "neb_sendTransaction"
+        }, "*");
+    }
+
+    // listen message from contentscript
+    window.addEventListener('message', function (e) {
+        console.log("recived by page:" + e + ", e.data:" + JSON.stringify(e.data));
+
+        // process the json
+        var result = e.data.data.neb_call.result;
+
+        if (result === "null") {
+            console.log("This Name is not Found check the spelling or try a different name ");
+            document.getElementById("result").innerHTML = `<div> This Name is not Found check the spelling or try a different name </div>`;
+            console.log(result);
+        }
+
+        if (result !== "null") {
+            console.log(result);
+            result = JSON.parse(e.data.data.neb_call.result)
+            console.log(result);
+
+            document.getElementById("result").innerHTML = `${result.value} - ${result.key}`
+        }
+    })
+</script>
+</body>
+
+</html>
