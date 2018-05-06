@@ -1,5 +1,10 @@
 Test it out Here: [iQoute](https://ottokafka.github.io/iQuote/.)
 
+
+![image](https://user-images.githubusercontent.com/21117852/39671076-1f57909c-5144-11e8-8bcb-31369241f65c.png)
+
+
+
 Developers follow this guide below
 
 ## Getting Started
@@ -12,8 +17,9 @@ Developers follow this guide below
 
 3) You will see this:
 
-![image](https://user-images.githubusercontent.com/21117852/39669724-dd272790-5126-11e8-8127-92333c3ccea0.png)
+![image](https://user-images.githubusercontent.com/21117852/39671108-9742d0c6-5144-11e8-9466-49392b784037.png)
 
+![image](https://user-images.githubusercontent.com/21117852/39671704-56106a94-5150-11e8-9710-9d40193f856a.png)
 
 4) Install the Web Extension Wallet. Go to the github link
  [Chrome extention wallet](https://github.com/ChengOrangeJu/WebExtensionWallet)
@@ -57,21 +63,19 @@ Now go back to the main Dapp
 the index.html file and refresh the page.
 You can go ahead and use this Dapp now. 
 
-![image](https://user-images.githubusercontent.com/21117852/39669739-2630a9c0-5127-11e8-9213-a1265e94532d.png)
+![image](https://user-images.githubusercontent.com/21117852/39671076-1f57909c-5144-11e8-8bcb-31369241f65c.png)
 
 Create a Quote such as this example and sign your name.
 Click Submit and this will save it to the Nebulas blockchain
 
-![image](https://user-images.githubusercontent.com/21117852/39670335-038d7b74-5135-11e8-8a5d-d049a0a5f3a5.png)
-
+![image](https://user-images.githubusercontent.com/21117852/39671731-a223677e-5150-11e8-9396-1c7d0db08820.png)
 Now search your name that your used
 
-![image](https://user-images.githubusercontent.com/21117852/39670372-d11e000e-5135-11e8-9cb0-84b727999dee.png)
+![image](https://user-images.githubusercontent.com/21117852/39671739-ba44d6a8-5150-11e8-9e72-889b8bbcac39.png)
 
 The Results will show
 
-![image](https://user-images.githubusercontent.com/21117852/39670408-d3f73a38-5136-11e8-9641-e34697f4859e.png)
-
+![image](https://user-images.githubusercontent.com/21117852/39671778-3205b2b6-5151-11e8-8ffb-7c794f9eacd4.png)
 
 
 
