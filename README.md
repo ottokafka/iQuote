@@ -1,4 +1,4 @@
-Test it out Here: [iQoute](https://ottokafka.github.io/iQuote/.)
+Test it out Here: [iQoute](https://ottokafka.github.io/IQuote/.)
 
 
 ![image](https://user-images.githubusercontent.com/21117852/39671076-1f57909c-5144-11e8-8bcb-31369241f65c.png)
@@ -9,7 +9,7 @@ Developers follow this guide below
 
 ## Getting Started
 1) Using the Terminal 
-    git clone https://github.com/ottokafka/iQuote.git
+    git clone https://github.com/ottokafka/IQuote.git
 
 2) Open the directory of the download and open index.html
 
@@ -22,6 +22,7 @@ Developers follow this guide below
 ![image](https://user-images.githubusercontent.com/21117852/39671704-56106a94-5150-11e8-9710-9d40193f856a.png)
 
 4) Install the Web Extension Wallet. Go to the github link
+
  [Chrome extention wallet](https://github.com/ChengOrangeJu/WebExtensionWallet)
 
 5) in the terminal 
@@ -69,6 +70,7 @@ Create a Quote such as this example and sign your name.
 Click Submit and this will save it to the Nebulas blockchain
 
 ![image](https://user-images.githubusercontent.com/21117852/39671731-a223677e-5150-11e8-9396-1c7d0db08820.png)
+
 Now search your name that your used
 
 ![image](https://user-images.githubusercontent.com/21117852/39671739-ba44d6a8-5150-11e8-9e72-889b8bbcac39.png)
@@ -85,27 +87,27 @@ Below is the full Smart Contract used for this Dapp
 ```js
 "use strict";
 
-var MyQuote = function(text) {
-    if (text) {
-        var obj = JSON.parse(text);
-        this.key = obj.key;
-        this.value = obj.value;
-    } else {
-        this.key = "";
-        this.value = "";
-    }
+var UserInput = function(text) {
+	if (text) {
+		var obj = JSON.parse(text);
+		this.key = obj.key;
+		this.value = obj.value;
+	} else {
+	    this.key = "";
+	    this.value = "";
+	}
 };
 
-MyQuote.prototype = {
-    toString: function () {
-        return JSON.stringify(this);
-    }
+UserInput.prototype = {
+	toString: function () {
+		return JSON.stringify(this);
+	}
 };
 
-var IQuote = function () {
+var Quotes = function () {
     LocalContractStorage.defineMapProperty(this, "repo", {
         parse: function (text) {
-            return new MyQuote(text);
+            return new UserInput(text);
         },
         stringify: function (o) {
             return o.toString();
@@ -113,8 +115,9 @@ var IQuote = function () {
     });
 };
 
-IQuote.prototype = {
+Quotes.prototype = {
     init: function () {
+        
     },
 
     save: function (key, value) {
@@ -122,30 +125,31 @@ IQuote.prototype = {
         key = key.trim();
         value = value.trim();
         if (key === "" || value === ""){
-            throw new Error(" You didn't enter a name or You didn't enter quote ");
+            throw new Error("empty key / value");
+        }
+        if (value.length > 64 || key.length > 64){
+            throw new Error("key / value exceed limit length")
         }
 
-        var from = Blockchain.transaction.from;
-        var MyQuote = this.repo.get(key);
-        if (MyQuote){
-            throw new Error("This name has already been used used a different name");
+        var usersName = this.repo.get(key);
+        if (usersName){
+            throw new Error("value has been occupied");
         }
 
-        MyQuote = new MyQuote();
-        MyQuote.author = from;
-        MyQuote.key = key;
-        MyQuote.value = value;
+        usersName = new UserInput();
+        usersName.key = key;
+        usersName.value = value;
 
-        this.repo.put(key, MyQuote);
+        this.repo.put(key, usersName);
     },
 
     get: function (key) {
         key = key.trim();
         if ( key === "" ) {
-            throw new Error("The name is blank please enter in a name then a quote")
+            throw new Error("empty key")
         }
         return this.repo.get(key);
     }
 };
-module.exports = IQuote;
+module.exports = Quotes;
 ```
