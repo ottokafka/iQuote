@@ -84,13 +84,10 @@
         margin-bottom: -15px;
     }
 
-
     .social-media li {
         display: inline-block;
         margin: 2%;
     }
-
-
 
     .content-portfolio img {
         width: 100%;
@@ -100,7 +97,6 @@
         border: 2px solid #f99;
         border-radius: 5px;
     }
-
 
     form {
         float: left;
@@ -136,7 +132,6 @@
         font-weight: bold;
     }
 
-
     /***************** FOOTER *****************/
     footer {
         background-color: #333;
@@ -169,7 +164,6 @@
     a:hover {
         color: #ff9999;
     }
-
 
     @media (max-width: 600px) {
         .services-content, .content-portfolio {
@@ -245,7 +239,8 @@
         color: lightslategray;
         font-family: "Adobe Hebrew";
     }
-    .userQuote{
+
+    .userQuote {
         color: darkblue;
         font-family: "American Typewriter";
     }
@@ -320,8 +315,8 @@
 
     <script>
 
-       var contractAddress = "n1jYqCH9QNDgdUkWiGT8SWWuVy4y5LWqgpB"
-       //var contractAddress = "n1o4GDSQW5kFax7GighCoELFcMHKCJV8oZQ"
+        var contractAddress = "n1jYqCH9QNDgdUkWiGT8SWWuVy4y5LWqgpB"
+        //var contractAddress = "n1o4GDSQW5kFax7GighCoELFcMHKCJV8oZQ"
 
         var quote = document.getElementById("quote")
         var username = document.getElementById("username")
@@ -400,65 +395,50 @@
         window.addEventListener('message', function (e) {
 
 
-
-setTimeout(function () {
-
-},1000)
-
-            try{
+            try {
                 var getResults = e.data.data.neb_call.result;
-            }catch (e){
-    if(e == undefined){
-        console.log(`results were undefined`);
-    }
-            }
 
+                if (getResults === "null") {
 
-            if (getResults === "null") {
+                    console.log(getResults);
+                    document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`;
 
-                console.log(getResults);
-                document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`;
-
-                setTimeout(function () {
-                    document.getElementById("result").innerHTML = `<div style="color: silver"> This Name is not Found check the spelling or try a different name </div> <div> Check out our examples names </div>  <select name="option">
+                    setTimeout(function () {
+                        document.getElementById("result").innerHTML = `<div style="color: silver"> This Name is not Found check the spelling or try a different name </div> <div> Check out our examples names </div>  <select name="option">
                 <option value="" disabled selected>Choose a Name</option>
                 <option value="1">Rocky</option>
                 <option value="2">Arnold</option>
                 <option value="3">The Rock</option>
             </select>`;
-                }, 1000)
-            }
-
-            if (getResults !== "null") {
-                try{
-                    getResults = JSON.parse(e.data.data.neb_call.result)
-                }catch (e){
-                    if(e == undefined){
-                        console.log(`results were undefined`);
-                    }
+                    }, 1000)
                 }
 
-                document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`
-
-                setTimeout(function () {
-                    document.getElementById("result").innerHTML = `<h1> Just One Second </h1>`
-                }, 1000)
-
-                setTimeout(function () {
-
-                    try{
+                if (getResults !== "null") {
+                    try {
                         getResults = JSON.parse(e.data.data.neb_call.result)
 
-                        document.getElementById("result").innerHTML = `<h1 class="userQuote"> ${getResults.value} </h1> <div class="userName"> - ${getResults.key } </div>`
+                        document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`
 
-                    }catch (e){
-                        if(e == undefined){
+                        setTimeout(function () {
+                            document.getElementById("result").innerHTML = `<h1> Just One Second </h1>`
+                        }, 1000)
+
+                        setTimeout(function () {
+                            document.getElementById("result").innerHTML = `<h1 class="userQuote"> ${getResults.value} </h1> <div class="userName"> - ${getResults.key } </div>`
+                        }, 2000)
+
+                    } catch (e) {
+                        if (e == undefined) {
                             console.log(`results were undefined`);
                         }
                     }
 
+                }
 
-                }, 2000)
+            } catch (e) {
+                if (e == undefined) {
+                    console.log(`results were undefined`);
+                }
             }
         })
     </script>
