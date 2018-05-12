@@ -127,13 +127,10 @@ Quotes.prototype = {
         if (key === "" || value === ""){
             throw new Error("empty key / value");
         }
-        if (value.length > 64 || key.length > 64){
-            throw new Error("key / value exceed limit length")
-        }
 
         var usersName = this.repo.get(key);
         if (usersName){
-            throw new Error("value has been occupied");
+            throw new Error("This Name is already being used");
         }
 
         usersName = new UserInput();

@@ -320,10 +320,8 @@
 
     <script>
 
-        //  The Contract Address not the wallet address
-      //old  var contractAddress = "n1jfdGb6TCja54MH23ynKwmsymJFUJgnFuj"
-       // var contractAddress = "n1qXQ7bdiZgAB1RnaCyz8n5MAjsFcxMJzb4"
-        var contractAddress = "n1jYqCH9QNDgdUkWiGT8SWWuVy4y5LWqgpB"
+       var contractAddress = "n1jYqCH9QNDgdUkWiGT8SWWuVy4y5LWqgpB"
+       //var contractAddress = "n1o4GDSQW5kFax7GighCoELFcMHKCJV8oZQ"
 
         var quote = document.getElementById("quote")
         var username = document.getElementById("username")
@@ -355,8 +353,6 @@
         function search() {
 
             searchvalue = document.getElementById("searchvalue").value
-
-            console.log("-----Searching SMart Contract---------");
 
             var func = "get"
             var args = "[\"" + searchvalue + "\"]"
@@ -401,16 +397,19 @@
             }, "*");
         }
 
-        // listen message from contentscript
         window.addEventListener('message', function (e) {
-            // console.log("recived by page:" + e + ", e.data:" + JSON.stringify(e.data));
 
-            // process the json
-            var result = e.data.data.neb_call.result;
+            try {
+                var getResults = e.data.data.neb_call.result;
+            }
+            catch(e){
+                console.log(e);
+            }
 
-            if (result === "null") {
 
-                console.log(result);
+            if (getResults === "null") {
+
+                console.log(getResults);
                 document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`;
 
                 setTimeout(function () {
@@ -423,10 +422,10 @@
                 }, 1000)
             }
 
-            if (result !== "null") {
-                console.log(result);
-                result = JSON.parse(e.data.data.neb_call.result)
-                console.log(result);
+            if (getResults !== "null") {
+                console.log(getResults);
+                getResults = JSON.parse(e.data.data.neb_call.result)
+                console.log(getResults);
 
                 document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`
 
@@ -435,7 +434,7 @@
                 }, 1000)
 
                 setTimeout(function () {
-                    document.getElementById("result").innerHTML = `<h1 class="userQuote"> ${result.value} </h1> <div class="userName"> - ${result.key } </div>`
+                    document.getElementById("result").innerHTML = `<h1 class="userQuote"> ${getResults.value} </h1> <div class="userName"> - ${getResults.key } </div>`
                 }, 2000)
             }
         })
