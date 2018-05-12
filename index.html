@@ -399,11 +399,18 @@
 
         window.addEventListener('message', function (e) {
 
-            try {
+
+
+setTimeout(function () {
+
+},1000)
+
+            try{
                 var getResults = e.data.data.neb_call.result;
-            }
-            catch(e){
-                console.log(e);
+            }catch (e){
+    if(e == undefined){
+        console.log(`results were undefined`);
+    }
             }
 
 
@@ -423,9 +430,13 @@
             }
 
             if (getResults !== "null") {
-                console.log(getResults);
-                getResults = JSON.parse(e.data.data.neb_call.result)
-                console.log(getResults);
+                try{
+                    getResults = JSON.parse(e.data.data.neb_call.result)
+                }catch (e){
+                    if(e == undefined){
+                        console.log(`results were undefined`);
+                    }
+                }
 
                 document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`
 
@@ -434,7 +445,19 @@
                 }, 1000)
 
                 setTimeout(function () {
-                    document.getElementById("result").innerHTML = `<h1 class="userQuote"> ${getResults.value} </h1> <div class="userName"> - ${getResults.key } </div>`
+
+                    try{
+                        getResults = JSON.parse(e.data.data.neb_call.result)
+
+                        document.getElementById("result").innerHTML = `<h1 class="userQuote"> ${getResults.value} </h1> <div class="userName"> - ${getResults.key } </div>`
+
+                    }catch (e){
+                        if(e == undefined){
+                            console.log(`results were undefined`);
+                        }
+                    }
+
+
                 }, 2000)
             }
         })
