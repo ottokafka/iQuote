@@ -315,20 +315,18 @@
 
     <script>
 
-        var contractAddress = "n1jYqCH9QNDgdUkWiGT8SWWuVy4y5LWqgpB"
-        //var contractAddress = "n1o4GDSQW5kFax7GighCoELFcMHKCJV8oZQ"
-
+        var contractAddress = "n1uozvLLUopeQnQAFzkGG2Wv8QVmbDbrSWT"
         var quote = document.getElementById("quote")
         var username = document.getElementById("username")
-
-
         var searchvalue = document.getElementById("searchvalue")
 
-        document.addEventListener("DOMContentLoaded", function () {
 
+
+        document.addEventListener("DOMContentLoaded", function () {
             console.log("web page loaded...")
             setTimeout(checkNebpay, 1000);
         });
+
 
         function checkNebpay() {
             console.log("check nebpay")
@@ -367,11 +365,11 @@
             }, "*");
         }
 
+
         function add2Contract() {
 
             username = document.getElementById("username").value
             quote = document.getElementById("quote").value
-
             username = username.toLowerCase()
 
             console.log("-------Add to the Smart Contract------");
@@ -394,13 +392,10 @@
 
         window.addEventListener('message', function (e) {
 
-
             try {
                 var getResults = e.data.data.neb_call.result;
 
                 if (getResults === "null") {
-
-                    console.log(getResults);
                     document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`;
 
                     setTimeout(function () {

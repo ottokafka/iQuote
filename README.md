@@ -121,18 +121,15 @@ Quotes.prototype = {
     },
 
     save: function (key, value) {
-
         key = key.trim();
         value = value.trim();
         if (key === "" || value === ""){
             throw new Error("empty key / value");
         }
-
         var usersName = this.repo.get(key);
         if (usersName){
             throw new Error("This Name is already being used");
         }
-
         usersName = new UserInput();
         usersName.key = key;
         usersName.value = value;
@@ -148,5 +145,11 @@ Quotes.prototype = {
         return this.repo.get(key);
     }
 };
+
 module.exports = Quotes;
 ```
+
+
+
+
+
