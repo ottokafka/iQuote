@@ -245,6 +245,7 @@
         font-family: "American Typewriter";
     }
     </style>
+
 </head>
 
 <body>
@@ -272,12 +273,13 @@
                 <h1>&</h1>
 
                 <li>
-                    <input id="username" placeholder="Sign Your Name"><label>&</label>
+                    <!--<input id="username" placeholder="Sign Your Name"><label>-->
+                    <input id="name" placeholder="Sign Your Name"><label>&</label>
                 </li>
 
             </ul>
 
-            <button onclick="add2Contract()" class="button">Save Forever</button>
+            <button onclick="push()" class="button">Save Forever</button>
             </li>
         </div>
 
@@ -293,7 +295,7 @@
 
             <div class="searchform cf">
 
-                <input class="input" id="searchvalue" placeholder="Search Your Name">
+                <input class="input" id="search_value" placeholder="Search Your Name">
                 <button class="button" onclick="search()">Search</button>
 
             </div>
@@ -313,124 +315,261 @@
         <div>iQuote | Copyright &copy; 2018 Ok</div>
     </footer>
 
+    <script src=nebulas/nebPay.js></script>
+    <script src=nebulas/nebulas.js></script>
+
     <script>
 
-        var contractAddress = "n1uozvLLUopeQnQAFzkGG2Wv8QVmbDbrSWT"
-        var quote = document.getElementById("quote")
-        var username = document.getElementById("username")
-        var searchvalue = document.getElementById("searchvalue")
+        "use strict";
 
+        var dappAddress = "n1vkEwW8LuNU3NmXJB3SUh8EBCxgBY6wbMF";
 
+        //here we use neb.js to call the "get" function to search from the Dictionary
+        var nebulas = require("nebulas"),
+            Account = nebulas.Account,
+            neb = new nebulas.Neb();
+        neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
 
-        document.addEventListener("DOMContentLoaded", function () {
-            console.log("web page loaded...")
-            setTimeout(checkNebpay, 1000);
-        });
-
-
-        function checkNebpay() {
-            console.log("check nebpay")
-            try {
-                var NebPay = require("nebpay");
-                console.log(`nebPay installed great`);
-
-            } catch (e) {
-                console.log(e);
-                if (window.confirm('You dont have the Chrome web wallet extension installed to use this Dapp click Confirm to download now ')) {
-                    window.location.href = 'https://github.com/ChengOrangeJu/WebExtensionWallet';
-                }
-            }
-        }
-
-
+        // 搜索功能: 查找Super-Dictionary 中有没有该词条
+        // $("#search").click(function() {
+        // $("#search_value").val() 搜索框内的值
         function search() {
 
-            searchvalue = document.getElementById("searchvalue").value
 
-            var func = "get"
-            var args = "[\"" + searchvalue + "\"]"
-            console.log(`you search for ${searchvalue}`);
+            var from = Account.NewAccount().getAddressString();
 
-            window.postMessage({
-                "target": "contentscript",
-                "data": {
-                    "to": contractAddress,
-                    "value": "0",
-                    "contract": {
-                        "function": func,
-                        "args": args
-                    }
-                },
-                "method": "neb_call"
-            }, "*");
+            var value = "0";
+            var nonce = "0";
+            var gas_price = "1000000"
+            var gas_limit = "2000000"
+            var callFunction = "get";
+            //var callArgs = "[\"" + $("#search_value").val() + "\"]"; //in the form of ["args"]
+            var arg = document.getElementById('search_value').value //$("#search_value").val()
+            var callArgs = JSON.stringify([arg]);  //推荐用 JSON.stringify 来生成参数字符串,这样会避免出错!
+            var contract = {
+                "function": callFunction,
+                "args": callArgs
+            };
+
+            neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+                cbSearch(resp)
+            }).catch(function (err) {
+                //cbSearch(err)
+                console.log("error:" + err.message)
+            })
         }
+        // })
 
+        //return of search,
+        function cbSearch(resp) {
+            var result = resp.result    ////resp is an object, resp.result is a JSON string
+            console.log("return of rpc call: " + JSON.stringify(result))
 
-        function add2Contract() {
+            var resultString = JSON.stringify(result);
+            if(resultString.search("key") !== -1 && resultString.search("value") !== -1){
+                result = JSON.parse(result)
 
-            username = document.getElementById("username").value
-            quote = document.getElementById("quote").value
-            username = username.toLowerCase()
+                console.log(result.value);
+                console.log(result.author);
 
-            console.log("-------Add to the Smart Contract------");
-            var func = "save"
-            var args = "[\"" + username + "\",\"" + quote + "\"]";
+                // $(".add_banner").addClass("hide");
+                // $(".result_faile").addClass("hide");
+                //
+                // $("#search_banner").text($("#search_value").val())
+                // $("#search_result").text(result.value)
+                // $("#search_result_author").text(result.author)
+                //
+                // $(".result_success").removeClass("hide");
 
-            window.postMessage({
-                "target": "contentscript",
-                "data": {
-                    "to": contractAddress,
-                    "value": "0",
-                    "contract": {
-                        "function": func,
-                        "args": args
-                    }
-                },
-                "method": "neb_sendTransaction"
-            }, "*");
-        }
-
-        window.addEventListener('message', function (e) {
-
-            try {
-                var getResults = e.data.data.neb_call.result;
-
-                if (getResults === "null") {
-                    document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`;
-
-                    setTimeout(function () {
-                        document.getElementById("result").innerHTML = `<div style="color: silver"> This Name is not Found check the spelling or try a different name </div> <div> Check out our examples names </div>`;
-                    }, 1000)
-                }
-
-                if (getResults !== "null") {
-                    try {
-                        getResults = JSON.parse(e.data.data.neb_call.result)
-
-                        document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`
-
-                        setTimeout(function () {
-                            document.getElementById("result").innerHTML = `<h1> Just One Second </h1>`
-                        }, 1000)
-
-                        setTimeout(function () {
-                            document.getElementById("result").innerHTML = `<h1 class="userQuote"> ${getResults.value} </h1> <div class="userName"> - ${getResults.key } </div>`
-                        }, 2000)
-
-                    } catch (e) {
-                        if (e == undefined) {
-                            console.log(`results were undefined`);
-                        }
-                    }
-
-                }
-
-            } catch (e) {
-                if (e == undefined) {
-                    console.log(`results were undefined`);
-                }
             }
-        })
+            if(resultString.search('"null"') !== -1){
+
+                // $(".add_banner").addClass("hide");
+                // $(".result_success").addClass("hide");
+                // $("#result_faile_add").text($("#search_value").val()
+                // $(".result_faile").removeClass("hide");
+
+            }
+            if(resultString.search("error") !== -1){
+                // $(".add_banner").addClass("hide");
+                // $(".result_faile").addClass("hide");
+
+                // $("#search_banner").text($("#search_value").val())
+                // $("#search_result").text(result)
+                // $("#search_result_author").text("")
+
+                console.log(result);
+
+                // $(".result_success").removeClass("hide");
+
+            }
+
+        }
+
+        // 添加信息功能: 像super-dictionary 中添加词条
+        // $("#add").click(function() {
+        //     $(".result_faile").addClass("hide");
+        //     $(".add_banner").removeClass("hide");
+        //
+        //     $("#add_value").val("")
+        // })
+
+        var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
+        var nebPay = new NebPay();
+        var serialNumber
+        //var callbackUrl = NebPay.config.mainnetUrl;   //如果合约在主网,则使用这个
+        var callbackUrl = NebPay.config.testnetUrl;   //
+
+        // $("#push").click(function() {
+        function push() {
+
+            var to = dappAddress;
+            var value = "0";
+            var callFunction = "save"
+            //var callArgs = "[\"" + $("#search_value").val() + "\",\"" + $("#add_value").val() + "\"]"
+
+            var arg1 = document.getElementById('name').value //$("#search_value").val(),
+            var arg2 = document.getElementById('quote').value //$("#add_value").val();
+            var callArgs = JSON.stringify([arg1, arg2]);
+
+            serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+                listener: cbPush,       //设置listener, 处理交易返回信息
+                callback: callbackUrl
+            });
+
+            intervalQuery = setInterval(function () {
+                funcIntervalQuery();
+            }, 10000);
+        }
+        // });
+
+        var intervalQuery
+
+        function funcIntervalQuery() {
+            var options = {
+                callback: callbackUrl
+            }
+            nebPay.queryPayInfo(serialNumber,options)   //search transaction result from server (result upload to server by app)
+                .then(function (resp) {
+                    console.log("tx result: " + resp)   //resp is a JSON string
+                    var respObject = JSON.parse(resp)
+                    if(respObject.code === 0){
+                        clearInterval(intervalQuery);
+
+                        // alert(`set ${$("#search_value").val()} succeed!`);
+
+                    }
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+        }
+
+        function cbPush(resp) {
+            console.log("response of push: " + JSON.stringify(resp))
+            var respString = JSON.stringify(resp);
+            if(respString.search("rejected by user") !== -1){
+                clearInterval(intervalQuery)
+                alert(respString)
+            }else if(respString.search("txhash") !== -1){
+                //alert("wait for tx result: " + resp.txhash)
+            }
+        }
+
+
+
+
+
+        //
+        // var contractAddress = "n1uozvLLUopeQnQAFzkGG2Wv8QVmbDbrSWT"
+        // var quote = document.getElementById("quote")
+        // var username = document.getElementById("username")
+        // var searchvalue = document.getElementById("searchvalue")
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     console.log("web page loaded...")
+        //     setTimeout(checkNebpay, 1000);
+        // });
+        // function checkNebpay() {
+        //     console.log("check nebpay")
+        //     try {
+        //         var NebPay = require("nebpay");
+        //         console.log(`nebPay installed great`);
+        //     } catch (e) {
+        //         console.log(e);
+        //         if (window.confirm('You dont have the Chrome web wallet extension installed to use this Dapp click Confirm to download now ')) {
+        //             window.location.href = 'https://github.com/ChengOrangeJu/WebExtensionWallet';
+        //         }
+        //     }
+        // }
+        // function search() {
+        //     searchvalue = document.getElementById("searchvalue").value
+        //     var func = "get"
+        //     var args = "[\"" + searchvalue + "\"]"
+        //     console.log(`you search for ${searchvalue}`);
+        //     window.postMessage({
+        //         "target": "contentscript",
+        //         "data": {
+        //             "to": contractAddress,
+        //             "value": "0",
+        //             "contract": {
+        //                 "function": func,
+        //                 "args": args
+        //             }
+        //         },
+        //         "method": "neb_call"
+        //     }, "*");
+        // }
+        // function add2Contract() {
+        //     username = document.getElementById("username").value
+        //     quote = document.getElementById("quote").value
+        //     username = username.toLowerCase()
+        //     console.log("-------Add to the Smart Contract------");
+        //     var func = "save"
+        //     var args = "[\"" + username + "\",\"" + quote + "\"]";
+        //     window.postMessage({
+        //         "target": "contentscript",
+        //         "data": {
+        //             "to": contractAddress,
+        //             "value": "0",
+        //             "contract": {
+        //                 "function": func,
+        //                 "args": args
+        //             }
+        //         },
+        //         "method": "neb_sendTransaction"
+        //     }, "*");
+        // }
+        // window.addEventListener('message', function (e) {
+        //     try {
+        //         var getResults = e.data.data.neb_call.result;
+        //         if (getResults === "null") {
+        //             document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`;
+        //             setTimeout(function () {
+        //                 document.getElementById("result").innerHTML = `<div style="color: silver"> This Name is not Found check the spelling or try a different name </div> <div> Check out our examples names </div>`;
+        //             }, 1000)
+        //         }
+        //         if (getResults !== "null") {
+        //             try {
+        //                 getResults = JSON.parse(e.data.data.neb_call.result)
+        //                 document.getElementById("result").innerHTML = `<h1> Your Results are Processing </h1>`
+        //                 setTimeout(function () {
+        //                     document.getElementById("result").innerHTML = `<h1> Just One Second </h1>`
+        //                 }, 1000)
+        //                 setTimeout(function () {
+        //                     document.getElementById("result").innerHTML = `<h1 class="userQuote"> ${getResults.value} </h1> <div class="userName"> - ${getResults.key } </div>`
+        //                 }, 2000)
+        //             } catch (e) {
+        //                 if (e == undefined) {
+        //                     console.log(`results were undefined`);
+        //                 }
+        //             }
+        //         }
+        //     } catch (e) {
+        //         if (e == undefined) {
+        //             console.log(`results were undefined`);
+        //         }
+        //     }
+        // })
     </script>
 </body>
 </html>
